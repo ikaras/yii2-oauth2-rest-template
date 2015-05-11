@@ -10,6 +10,7 @@ return [
 
 	'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
     'controllerNamespace' => 'api\controllers',
+	'defaultRoute' => 'product',
 
 	'bootstrap' => ['log'],
     'modules' => [
