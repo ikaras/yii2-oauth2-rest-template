@@ -19,11 +19,16 @@ trait ControllersCommonTrait
 	public function behaviors()
 	{
 		$behaviors = parent::behaviors();
-		$behaviors['contentNegotiator']['formats'] = Yii::$app->params['formats'];
+
+		// replace to top contentNegotiator filter for displaying errors in correct format
+		$content_negotiator = $behaviors['contentNegotiator'];
+		unset($behaviors['contentNegotiator']);
+		$content_negotiator['formats'] = Yii::$app->params['formats'];
 
 		$behaviors = ArrayHelper::merge(
 			[
-				'oauth2access' => [
+				'contentNegotiator' => $content_negotiator,
+				'oauth2access' => [ // should be before "authenticator" filter
 					'class' => OAuth2AccessFilter::className()
 				],
 				'exceptionFilter' => [

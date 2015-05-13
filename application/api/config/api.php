@@ -27,6 +27,9 @@ return [
 		],
 		'response' => [
 			'class' => 'yii\web\Response',
+			'formatters' => [
+				yii\web\Response::FORMAT_HTML => '\api\components\HtmlResponseFormatter',
+			],
 			'on beforeSend' => function (\yii\base\Event $event) {
 				$response = $event->sender;
 				// catch situation, when no controller hasn't been loaded
@@ -36,7 +39,6 @@ return [
 					$content_neg->response = $response;
 					$content_neg->formats = Yii::$app->params['formats'];
 					$content_neg->negotiate();
-					// TODO: add parsing error
 				}
 				if ($response->data !== null && !empty(Yii::$app->request->get('suppress_response_code'))) {
 					$response->data = [
