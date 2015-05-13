@@ -16,7 +16,7 @@ class Product extends \api\components\db\ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return '{{product}}';
+		return '{{products}}';
 	}
 
 	public static function find() {

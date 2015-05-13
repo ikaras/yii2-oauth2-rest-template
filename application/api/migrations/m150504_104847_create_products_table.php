@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150509_104847_create_product_table extends Migration
+class m150504_104847_create_products_table extends Migration
 {
     public function safeUp()
     {

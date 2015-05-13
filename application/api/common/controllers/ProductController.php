@@ -15,16 +15,6 @@ class ProductController extends \api\components\ActiveController
 {
 	public $modelClass = '\api\common\models\Product';
 
-	public function actions()
-	{
-		$actions = parent::actions();
-
-		// customize the data provider preparation with the "prepareDataProvider()" method
-		$actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-
-		return $actions;
-	}
-
 	public function accessRules()
 	{
 		return [

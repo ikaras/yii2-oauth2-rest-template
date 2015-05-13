@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v1;
+namespace api\versions\v1;
 
 class Module extends \api\components\APIModule
 {
