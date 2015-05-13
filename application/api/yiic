@@ -20,10 +20,9 @@ require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
 require(__DIR__ . '/config/bootstrap.php');
 
 $config = yii\helpers\ArrayHelper::merge(
-	require(__DIR__ . '/config/main.php'),
+	require(__DIR__ . '/config/common.php'),
 	require(__DIR__ . '/config/console.php')
 );
-
 $application = new yii\console\Application($config);
 $exitCode = $application->run();
 exit($exitCode);
