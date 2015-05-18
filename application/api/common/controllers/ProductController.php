@@ -23,15 +23,37 @@ class ProductController extends \api\components\ActiveController
 				'roles' => ['?'],
 			],
 			[
-				'allow' => false,
+				'allow' => true,
+				'actions' => [
+					'view',
+					'create',
+					'update',
+					'delete'
+				],
+				'roles' => ['@'],
+			],
+			[
+				'allow' => true,
 				'actions' => ['custom'],
-				'roles' => ['?'],
+				'roles' => ['@'],
+				'scopes' => ['custom'],
+			],
+			[
+				'allow' => true,
+				'actions' => ['protected'],
+				'roles' => ['@'],
+				'scopes' => ['protected'],
 			]
 		];
 	}
 
 	public function actionCustom()
 	{
-		return ['status' => 'yes'];
+		return ['status' => 'ok', 'underScope' => 'custom'];
+	}
+
+	public function actionProtected()
+	{
+		return ['status' => 'ok', 'underScope' => 'protected'];
 	}
 }

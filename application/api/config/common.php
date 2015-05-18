@@ -13,7 +13,7 @@ return [
 		'oauth2' => [
 			'class' => 'filsh\yii2\oauth2server\Module',
 			'options' => [
-				'token_param_name' => 'access-token',
+				'token_param_name' => 'access_token',
 				'access_lifetime' => 3600 * 24
 			],
 			'storageMap' => [
