@@ -29,20 +29,30 @@ class OAuth2AccessFilter extends \yii\base\ActionFilter
 		}
 
 		// else, if not public, add additional auth filters
-		$auth_behavior = $this->owner->getBehavior('authenticator');
-		$auth_behavior->authMethods = [
-			['class' => HttpBearerAuth::className()],
-			['class' => QueryParamAuth::className()],
-		];
+		if (Yii::$app->hasModule('oauth2')) {
+			/** @var \filsh\yii2\oauth2server\Module $oauth_module */
+			$oauth_module = Yii::$app->getModule('oauth2');
+			$query_param_auth = ['class' => QueryParamAuth::className()];
+			if (!empty($oauth_module->options['token_param_name'])) {
+				$query_param_auth['tokenParam'] = $oauth_module->options['token_param_name'];
+			}
 
-		$scopes = isset($actions_scopes[$action_name]) ? $actions_scopes[$action_name] : '';
-		/** @var \filsh\yii2\oauth2server\Module $oauthModule */
-		$oauthModule = Yii::$app->getModule('oauth2');
-		$oauthServer = $oauthModule->getServer();
-        $oauthRequest = $oauthModule->getRequest();
-        $oauthResponse = $oauthModule->getResponse();
-		if ($oauthServer->verifyResourceRequest($oauthRequest, $oauthResponse, $scopes)) {
-			throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+			$auth_behavior = $this->owner->getBehavior('authenticator');
+			$auth_behavior->authMethods = [
+				$query_param_auth,
+				['class' => HttpBearerAuth::className()],
+			];
+
+			$scopes = isset($actions_scopes[$action_name]) ? $actions_scopes[$action_name] : '';
+			if (is_array($scopes)) {
+				$scopes = implode(' ', $scopes);
+			}
+			$oauthServer = $oauth_module->getServer();
+			$oauthRequest = $oauth_module->getRequest();
+			$oauthResponse = $oauth_module->getResponse();
+			if (!$oauthServer->verifyResourceRequest($oauthRequest, $oauthResponse, $scopes)) {
+				throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+			}
 		}
 		return parent::beforeAction($action);
 	}
@@ -68,7 +78,10 @@ class OAuth2AccessFilter extends \yii\base\ActionFilter
 						if ($rule['allow'] && (empty($rule['roles']) || in_array('?', $rule['roles']))) {
 							$public_actions = array_merge($public_actions, $rule['actions']);
 							$is_public = true;
-						} elseif (!$rule['allow'] && (empty($rule['roles']) || in_array('?', $rule['roles']))) {
+						} elseif (
+							(!$rule['allow'] && (empty($rule['roles']) || in_array('?', $rule['roles'])))
+							|| ($rule['allow'] && !empty($rule['roles']) && in_array('@', $rule['roles']))
+						) {
 							$public_actions = array_diff($public_actions, $rule['actions']);
 							$is_public = false;
 						}
