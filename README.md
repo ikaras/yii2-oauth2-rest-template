@@ -108,18 +108,18 @@ So, from the rules, we understand that:
 
 2\. Request to get access token
 ```
-    curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPOST "http://api.loc/oauth2/token" -d
-         '{"grant_type":"password","username":"admin@api.loc","password":"123123123","client_id":"testclient","client_secret":"testpass”}'
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" "http://api.loc/v1/products" -XPOST "http://api.loc/oauth2/token" -d\
+'{"grant_type":"password","username":"admin@api.loc","password":"123123123","client_id":"testclient","client_secret":"testpass"}'
 ```
 
 3\. Request to get access token with scopes
 ```
-curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPOST "http://api.loc/oauth2/token" -d
-     '{"grant_type":"password","username":"admin@api.loc","password":"123123123","client_id":"testclient","client_secret":”testpass”, “scope” => “custom”}’
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" "http://api.loc/v1/products" -XPOST "http://api.loc/oauth2/token" -d\
+'{"grant_type":"password","username":"admin@api.loc","password":"123123123","client_id":"testclient","client_secret":"testpass","scope":"custom"}'
 ```
 
 4\. Request to protected api point 
 ```
-curl -i -H "Accept:application/json" -H "Content-Type:application/json"
-     "http://api.loc/v1/products/1?access_token=76f4c0d40347f24a73799335cefb495be9ea364b”
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" \
+"http://api.loc/v1/products/1?access_token=76f4c0d40347f24a73799335cefb495be9ea364b"
 ```
