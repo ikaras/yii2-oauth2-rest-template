@@ -77,10 +77,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
     {
 		/** @var \filsh\yii2\oauth2server\Module $module */
 		$module = Yii::$app->getModule('oauth2');
-		$server = $module->getServer();
-		$request = $module->getRequest();
-		$token = $server->getAccessTokenData($request);
-		return static::findIdentity($token['user_id']);
+		$token = $module->getServer()->getResourceController()->getToken();
+
+		return !empty($token['user_id'])
+					? static::findIdentity($token['user_id'])
+					: null;
     }
 
     /**
