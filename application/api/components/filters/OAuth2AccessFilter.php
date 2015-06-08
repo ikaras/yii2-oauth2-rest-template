@@ -17,7 +17,13 @@ use yii\web\ForbiddenHttpException;
 
 class OAuth2AccessFilter extends \yii\base\ActionFilter
 {
-	public function beforeAction(Action $action)
+	/**
+	 * @param Action $action
+	 * @return bool
+	 * @throws ForbiddenHttpException
+	 * @throws \yii\base\InvalidConfigException
+	 */
+	public function beforeAction($action)
 	{
 		$action_name = $action->id;
 
