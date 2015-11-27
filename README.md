@@ -123,3 +123,25 @@ curl -i -H "Accept:application/json" -H "Content-Type:application/json" "http://
 curl -i -H "Accept:application/json" -H "Content-Type:application/json" \
 "http://api.loc/v1/products/1?access_token=76f4c0d40347f24a73799335cefb495be9ea364b"
 ```
+
+## What have been done? ##
+1. Got Yii2 framework and created general directory structure (see section [Structure](https://github.com/ikaras/yii2-oauth2-rest-template#structure)).
+2. Configured Yii2 as RESTful Web Service using [official manual](http://www.yiiframework.com/doc-2.0/guide-rest-quick-start.html).
+3. Created parent classes to inherit for all components of the project (saved in `components` directory). For more information - look at [Structure](https://github.com/ikaras/yii2-oauth2-rest-template#structure) section too. Classes [Controller](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/Controller.php) and [ActiveController](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/ActiveController.php) are parents for all controllers what use the same trait. [ControllersCommonTrait](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/traits/ControllersCommonTrait.php) - it connects (redefine) all needed filters to controller's actions.
+4. Directory `common` consists from the common controllers and models for each versions.
+5. Than I attached and just configured [Filsh's Yii2 OAuth2 extension](https://github.com/Filsh/yii2-oauth2-server), his extension based on widely used [OAuth2 Server Library for PHP](https://bshaffer.github.io/oauth2-server-php-docs/). All detailed information you can find in these repositories. What I've configured:
+  - configure module `oauth2` in [common](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/config/common.php) configurations;
+  - adopt method [User::findIdentityByAccessToken](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/models/User.php#L76) to authorize user by token using `oauth2` module.
+6. Developed [OAuth2AccessFilter](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/filters/OAuth2AccessFilter.php) and replaced standard Yii2 AccessFilter (on [ControllersCommonTrait](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/traits/ControllersCommonTrait.php) for all controllers) for more comfortable using Scopes. About it read below.
+
+### Scopes ###
+As said in [official OAuth2 Library docs](https://bshaffer.github.io/oauth2-server-php-docs/overview/scope/):
+> The use of Scope in an OAuth2 application is often key to proper permissioning. Scope is used to limit the authorization granted to the client by the resource owner. The most popular use of this is Facebook’s ability for users to authorize a variety of different functions to the client (“access basic information”, “post on wall”, etc).
+
+So, each token could have specific permissions to run corresponding API point. In out case, API point is actions.
+
+In Yii2 we already have the tool to control access to particular action by user role, so I decided to expand it functionality to define scopes for action. 
+
+As result was created [OAuth2AccessFilter](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/filters/OAuth2AccessFilter.php) which copy (not inherit, structure not allow to inherit) of standard AccessFilter logic to work with rules with additional logic to process scopes for private action by [means of `oauth2` module](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/filters/OAuth2AccessFilter.php#L59).
+
+So, if user's role allows him to run action (API point), than will check if user's token has needed scopes to do it (if action has defined limited scopes). Example of using you can find in [ProductController](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/common/controllers/ProductController.php#L36) and it means that only authorized users with token which contain `custom` scope can have access to action `custom`.
