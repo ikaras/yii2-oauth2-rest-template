@@ -23,7 +23,7 @@ composer create-project --stability="dev" --prefer-source ikaras/yii2-oauth2-res
 ## Configurations
 
 1. Configure your Webservice, nginx or apache (see how [here](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)), to look at the `application/api/www` directory. I used domain `api.loc` in my tests.
-2. Change connection to your db in `application/api/common.php`
+2. Change connection to your db in `application/api/config/common.php`
 3. Run migrations
 ```
 php application/api/yiic migrate --migrationPath=@yii/rbac/migrations --interactive=0 \
