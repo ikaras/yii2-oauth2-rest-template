@@ -1,15 +1,18 @@
 <?php
 Yii::setAlias('api', dirname(__DIR__));
 $params = require(__DIR__ . '/params.php');
-return [
-	'version' => "0.0.0",
+$config =  [
+	'version' => "0.0.1",
     'basePath' => dirname(__DIR__),
-	'timeZone' => 'Europe/Kiev',
+	'timeZone' => 'Africa/Nairobi',
 
 	'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
 
 	'bootstrap' => ['log'],
     'modules' => [
+        'gii' => [ //for development only
+            'class' => 'yii\gii\Module',
+        ],
 		'oauth2' => [
 			'class' => 'filsh\yii2\oauth2server\Module',
 			'options' => [
@@ -41,9 +44,9 @@ return [
     'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection',
-			'dsn' => 'mysql:host=dbserver;dbname=api',
-			'username' => 'apiuser',
-			'password' => 'somegoodpassword',
+			'dsn' => 'mysql:host=localhost;dbname=hosannah_app',
+			'username' => 'root',
+			'password' => 'jesus',
 			'charset' => 'utf8',
 		],
 		'authManager' => [
@@ -61,3 +64,14 @@ return [
     ],
     'params' => $params,
 ];
+
+/*
+if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}*/
+
+return $config;
