@@ -16,7 +16,7 @@ If you do not have [Composer](http://getcomposer.org/), you may install it by fo
 
 You can then install the application using the following commands:
 ```
-composer global require "fxp/composer-asset-plugin:~1.0.0"
+composer global require "fxp/composer-asset-plugin:~1.1.1"
 composer create-project --stability="dev" --prefer-source ikaras/yii2-oauth2-rest-template .
 ```
 
