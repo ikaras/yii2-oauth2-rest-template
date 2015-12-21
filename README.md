@@ -29,6 +29,7 @@ composer create-project --stability="dev" --prefer-source ikaras/yii2-oauth2-res
 php application/api/yiic migrate --migrationPath=@yii/rbac/migrations --interactive=0 \
 php application/api/yiic migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations --interactive=0 \
 php application/api/yiic migrate --interactive=0 \
+php application/api/yiic migrate --interactive=0 \
 ```
 
 ## Structure
@@ -58,7 +59,7 @@ php application/api/yiic migrate --interactive=0 \
 ## Tests
 ### Conditions
 
-- _Domain_: `api.loc`
+- _Domain_: `api.loc` (you can use also something like `http://localhost/TestOAuth2/application/api/www/index.php/` if you don't want to use vhosts)
 - _Version_: `v1`
 - _API point_: `/products`, `/products/<id>`, `/products/custom`, `/products/protected`
 - _User_: login: `admin@api.loc`, pass: `123123123`
