@@ -16,18 +16,19 @@ If you do not have [Composer](http://getcomposer.org/), you may install it by fo
 
 You can then install the application using the following commands:
 ```
-composer global require "fxp/composer-asset-plugin:~1.0.0"
+composer global require "fxp/composer-asset-plugin:~1.1.1"
 composer create-project --stability="dev" --prefer-source ikaras/yii2-oauth2-rest-template .
 ```
 
 ## Configurations
 
 1. Configure your Webservice, nginx or apache (see how [here](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)), to look at the `application/api/www` directory. I used domain `api.loc` in my tests.
-2. Change connection to your db in `application/api/common.php`
+2. Change connection to your db in `application/api/config/common.php`
 3. Run migrations
 ```
 php application/api/yiic migrate --migrationPath=@yii/rbac/migrations --interactive=0 \
 php application/api/yiic migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations --interactive=0 \
+php application/api/yiic migrate --interactive=0 \
 php application/api/yiic migrate --interactive=0 \
 ```
 
@@ -58,7 +59,7 @@ php application/api/yiic migrate --interactive=0 \
 ## Tests
 ### Conditions
 
-- _Domain_: `api.loc`
+- _Domain_: `api.loc` (you can use also something like `http://localhost/TestOAuth2/application/api/www/index.php/` if you don't want to use vhosts)
 - _Version_: `v1`
 - _API point_: `/products`, `/products/<id>`, `/products/custom`, `/products/protected`
 - _User_: login: `admin@api.loc`, pass: `123123123`
