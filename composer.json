@@ -19,7 +19,7 @@
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii2": "*",
-    "filsh/yii2-oauth2-server": "*"
+    "filsh/yii2-oauth2-server": "2.0.0"
   },
   "extra": {
     "writable": [
