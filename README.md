@@ -1,11 +1,11 @@
 # REST API application with OAuth2 server on [Yii2](https://github.com/yiisoft/yii2)
 
-This is Yii2 Rest App template with configured OAuth2 server (using https://github.com/Filsh/yii2-oauth2-server). Resolved all problems on adaptation OAuth2 server extension, built directory structure with versions (as recommended in [official guide](http://www.yiiframework.com/doc-2.0/guide-rest-versioning.html)), added some ready-to-use features for increase developing. 
+This is a Yii2 Rest App template configured with OAuth2 server (using https://github.com/Filsh/yii2-oauth2-server). Resolved all problems on adaptation OAuth2 server extension, built directory structure with versions (as recommended in [official guide](http://www.yiiframework.com/doc-2.0/guide-rest-versioning.html)), added some ready-to-use features for faster development. 
 
-You can use this template as start poing to create API side of your service.
+You can use this template as a starting poing to create API side of your service.
 
 ## Run on [Docker](https://docs.docker.com/)
-To quick run for testing code I've create this https://github.com/ikaras/yii2-oauth2-rest-docker - it using [Docker Compose](https://docs.docker.com/compose/) to up LEMP stack with all need configurations and ready for requests. Just follow instructions in there.
+To quick run for testing code I've created this https://github.com/ikaras/yii2-oauth2-rest-docker - it using [Docker Compose](https://docs.docker.com/compose/) to up LEMP stack with all need configurations and ready for requests. Just follow instructions in there.
 
 ## Installation
 
@@ -22,7 +22,7 @@ composer create-project --stability="dev" --prefer-source ikaras/yii2-oauth2-res
 
 ## Configurations
 
-1. Configure your Webservice, nginx or apache (see how [here](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)), to look at the `application/api/www` directory. I used domain `api.loc` in my tests.
+1. Configure your Web server i.e Nginx or Apache (see how [here](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)), to look at the `application/api/www` directory. I used domain `api.loc` in my tests.
 2. Change connection to your db in `application/api/config/common.php`
 3. Run migrations
 ```
@@ -130,7 +130,7 @@ curl -i -H "Accept:application/json" -H "Content-Type:application/json" \
 2. Configured Yii2 as RESTful Web Service using [official manual](http://www.yiiframework.com/doc-2.0/guide-rest-quick-start.html).
 3. Created parent classes to inherit for all components of the project (saved in `components` directory). For more information - look at [Structure](https://github.com/ikaras/yii2-oauth2-rest-template#structure) section too. Classes [Controller](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/Controller.php) and [ActiveController](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/ActiveController.php) are parents for all controllers what use the same trait. [ControllersCommonTrait](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/traits/ControllersCommonTrait.php) - it connects (redefine) all needed filters to controller's actions.
 4. Directory `common` consists from the common controllers and models for each versions.
-5. Than I attached and just configured [Filsh's Yii2 OAuth2 extension](https://github.com/Filsh/yii2-oauth2-server), his extension based on widely used [OAuth2 Server Library for PHP](https://bshaffer.github.io/oauth2-server-php-docs/). All detailed information you can find in these repositories. What I've configured:
+5. Then I attached and configured [Filsh's Yii2 OAuth2 extension](https://github.com/Filsh/yii2-oauth2-server), his extension based on widely used [OAuth2 Server Library for PHP](https://bshaffer.github.io/oauth2-server-php-docs/). All detailed information you can find in these repositories. What I've configured:
   - configure module `oauth2` in [common](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/config/common.php) configurations;
   - adopt method [User::findIdentityByAccessToken](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/models/User.php#L76) to authorize user by token using `oauth2` module.
 6. Developed [OAuth2AccessFilter](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/filters/OAuth2AccessFilter.php) and replaced standard Yii2 AccessFilter (on [ControllersCommonTrait](https://github.com/ikaras/yii2-oauth2-rest-template/blob/master/application/api/components/traits/ControllersCommonTrait.php) for all controllers) for more comfortable using Scopes. About it read below.
